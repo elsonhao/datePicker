@@ -10,15 +10,45 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    
+    @IBOutlet weak var bmtTime: UITextField!
+    
+    let datePicker = UIDatePicker()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        datePicker.datePickerMode = .dateAndTime
+        
+        createDatePicker()
+        
+    }
+    func createDatePicker(){
+        //tool bar
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        // bar button item
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
+        toolbar.setItems([doneButton], animated: false)
+        
+        //inputAccessoryView是增加附屬的view
+        bmtTime.inputAccessoryView = toolbar
+        //inputView是用自訂的view
+        bmtTime.inputView = datePicker
+        
+    }
+    
+    func donePressed(){
+        // formate date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .long
+        dateFormatter.timeStyle = .short
+        
+        
+        bmtTime.text = dateFormatter.string(from: datePicker.date)
+        self.view.endEditing(true)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
 
 }
